@@ -36,7 +36,6 @@
     "lint",
     "test"
   ],
-  "dependencies": {},
   "peerDependencies": {
     "vue": "^3.2.0"
   },
