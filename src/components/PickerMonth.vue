@@ -41,6 +41,11 @@ export default {
       utils: constructedDateUtils
     }
   },
+  emits: [
+    'selectMonth',
+    'changedYear',
+    'showYearCalendar'
+  ],
   computed: {
     months () {
       const d = this.pageDate

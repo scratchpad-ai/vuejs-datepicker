@@ -1,12 +1,13 @@
 import PickerMonth from '@/components/PickerMonth.vue'
-import {shallow} from '@vue/test-utils'
+import {flushPromises, mount} from '@vue/test-utils'
 import {en} from '@/locale'
 
 describe('PickerMonth', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallow(PickerMonth, {
-      propsData: {
+    wrapper = mount(PickerMonth, {
+      shallow: true,
+      props: {
         allowedToShowView: () => true,
         translation: en,
         pageDate: new Date(2018, 3, 1),
@@ -24,7 +25,7 @@ describe('PickerMonth', () => {
     expect(wrapper.vm.selectMonth(month)).toEqual(false)
   })
 
-  it('can accept a customPredictor to check if the month is disabled', () => {
+  it('can accept a customPredictor to check if the month is disabled', async () => {
     wrapper.setProps({
       disabledDates: {
         customPredictor (date) {
@@ -34,6 +35,7 @@ describe('PickerMonth', () => {
         }
       }
     })
+    await flushPromises()
     expect(wrapper.vm.isDisabledMonth(new Date(2018, 4, 29))).toEqual(true)
     expect(wrapper.vm.isDisabledMonth(new Date(2018, 9, 28))).toEqual(false)
     expect(wrapper.vm.isDisabledMonth(new Date(2018, 8, 24))).toEqual(true)

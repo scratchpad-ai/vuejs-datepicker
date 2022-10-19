@@ -37,6 +37,10 @@ export default {
     allowedToShowView: Function,
     useUtc: Boolean
   },
+  emits: [
+    'selectYear',
+    'changedDecade'
+  ],
   computed: {
     years () {
       const d = this.pageDate
