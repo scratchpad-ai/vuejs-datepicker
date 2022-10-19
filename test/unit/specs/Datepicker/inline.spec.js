@@ -1,3 +1,4 @@
+/* global document */
 import Datepicker from '@/components/Datepicker.vue'
 import {mount} from '@vue/test-utils'
 
