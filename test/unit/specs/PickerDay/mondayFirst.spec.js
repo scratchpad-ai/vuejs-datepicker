@@ -1,12 +1,13 @@
 import PickerDay from '@/components/PickerDay.vue'
-import {shallow} from '@vue/test-utils'
+import {flushPromises, mount} from '@vue/test-utils'
 import {en} from '@/locale'
 
 describe('PickerDay: Datepicker with monday as first day of week', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallow(PickerDay, {
-      propsData: {
+    wrapper = mount(PickerDay, {
+      shallow: true,
+      props: {
         mondayFirst: true,
         translation: en,
         allowedToShowView: () => true,
@@ -23,17 +24,19 @@ describe('PickerDay: Datepicker with monday as first day of week', () => {
     expect(wrapper.vm.daysOfWeek[6]).toEqual('Sun')
   })
 
-  it('should have 6 blankDays when month starts from Sunday', () => {
+  it('should have 6 blankDays when month starts from Sunday', async () => {
     wrapper.setProps({
       pageDate: new Date(2018, 3, 1)
     })
+    await flushPromises()
     expect(wrapper.vm.blankDays).toEqual(6)
   })
 
-  it('should have no blankDays when month starts from Monday', () => {
+  it('should have no blankDays when month starts from Monday', async () => {
     wrapper.setProps({
       pageDate: new Date(2018, 9, 1)
     })
+    await flushPromises()
     expect(wrapper.vm.blankDays).toEqual(0)
   })
 })

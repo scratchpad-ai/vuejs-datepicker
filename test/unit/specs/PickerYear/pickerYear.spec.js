@@ -1,12 +1,13 @@
 import PickerYear from '@/components/PickerYear.vue'
-import {shallow} from '@vue/test-utils'
+import {flushPromises, mount} from '@vue/test-utils'
 import {en} from '@/locale'
 
 describe('PickerYear', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallow(PickerYear, {
-      propsData: {
+    wrapper = mount(PickerYear, {
+      shallow: true,
+      props: {
         allowedToShowView: () => true,
         translation: en,
         pageDate: new Date(2018, 1, 1),
@@ -15,11 +16,12 @@ describe('PickerYear', () => {
     })
   })
 
-  it('knows the selected year', () => {
+  it('knows the selected year', async () => {
     const newDate = new Date(2016, 9, 15)
     wrapper.setProps({
       selectedDate: newDate
     })
+    await flushPromises()
     expect(wrapper.vm.isSelectedYear(newDate)).toEqual(true)
     expect(wrapper.vm.isSelectedYear(new Date(2017, 1, 1))).toEqual(false)
   })
@@ -34,14 +36,16 @@ describe('PickerYear', () => {
     expect(wrapper.emitted().changedDecade).toBeTruthy()
   })
 
-  it('formats the decade range', () => {
+  it('formats the decade range', async () => {
     wrapper.setProps({
       pageDate: new Date(2021, 1, 1)
     })
+    await flushPromises()
     expect(wrapper.vm.getPageDecade).toEqual('2020 - 2029')
     wrapper.setProps({
       pageDate: new Date(2001, 1, 1)
     })
+    await flushPromises()
     expect(wrapper.vm.getPageDecade).toEqual('2000 - 2009')
   })
 
